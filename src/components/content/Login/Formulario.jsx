@@ -79,7 +79,6 @@ export default function Formulario() {
                         event
                         className="w-2/3"
 
-                        
                         >
                             Iniciar sesión
                         </Button>
