@@ -1,12 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Header from "./partials/Header";
+import Modulos from "./partials/Subpartials/Modulos";
+import Layout from "./partials/Subpartials/Layout";
 
 
 export function Componente({ children }) {
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const { usuario, showError, ruta } = useContext(AppContext);
+  const [ setWindowWidth] = useState(window.innerWidth);
+  // const { usuario, showError, ruta } = useContext(AppContext);
   const [SideBarActive, setSideBarActive] = useState(true);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleResize = () => {
     setWindowWidth(window.innerWidth);
@@ -28,15 +31,9 @@ export function Componente({ children }) {
     };
   }, []);
 
-  useEffect(() => {
-    if ((usuario == null) | (usuario?.empId == null)) {
-      navigate(ruta + "/login", { replace: true });
-    }
-  }, []);
 
-  if (usuario == null) {
-    return null;
-  }
+
+
 
   return (
     <>

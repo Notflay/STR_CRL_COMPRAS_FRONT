@@ -5,12 +5,29 @@ import { InputText } from "primereact/inputtext";
 import { Password } from 'primereact/password';
 import { Dropdown } from 'primereact/dropdown';
 import { Button } from 'primereact/button';
-
+import { AppContext } from "../../../App";
+import { Navigate, useNavigate } from 'react-router-dom';
 
 
 export default function Formulario() {
+    const {ruta } = useContext(AppContext);
+    const navigate = useNavigate();
     const toast = useRef(null)
     const buttonRef = useRef();
+    const [usuario, setUsername] = useState('');
+    const [pass, setPassword] = useState('');
+
+
+    const handleLogin = (e) => {
+        e.preventDefault();
+        if (usuario === 'usuario' && pass === 'contraseña') {
+            toast.current.show({ severity: 'success', detail: 'Inicio de sesión exitoso' });
+             navigate(ruta +'/Inicio'); // Cambia esto para usar la función navigate
+            console.log('inicio el proceso')
+        } else {
+            toast.current.show({ severity: 'error', detail: 'Nombre de usuario o contraseña incorrectos' });
+        }
+    };
 
     return (
         <>
@@ -39,8 +56,11 @@ export default function Formulario() {
                             <InputText
                                 type="text"
                                 className="p-inputtext-lg w-full"
-                                placeholder="Ingrese usuario" />
-
+                                placeholder="Ingrese usuario"
+                                value={usuario}
+                                onChange={(e) => setUsername(e.target.value)}
+                            // value={usuario?.usuario || ""}
+                            />
 
                         </div>
 
@@ -48,6 +68,8 @@ export default function Formulario() {
                             <Password
                                 className="p-inputtext-lg w-full"
                                 placeholder="Ingrese contraseña"
+                                value={pass}
+                                onChange={(e) => setPassword(e.target.value)}
                             />
 
                         </div>
@@ -69,15 +91,17 @@ export default function Formulario() {
                             />
                         </div>
                     </div>
-
                     <div className="flex justify-content-center">
-                        <Button 
-                        ref={buttonRef}
-                        severity="success" 
-                        rounded
-                        size="large"
-                        event
-                        className="w-2/3"
+                        <Button ref={buttonRef}
+                            severity="success"
+                            rounded
+                            size="large"
+                            className="w-2/3"
+                            onClick={handleLogin}
+                        // onClick={(e)=>{
+                        //     e.preventDefault();
+                        //     obtieneSesion();
+                        // }}
 
                         >
                             Iniciar sesión

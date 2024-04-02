@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { AppContext } from "../../../App";
 
 function SideBar({ responsiveSize, setSideBarActive, SideBarActive }) {
   const [modulos, setModulos] = useState({

@@ -5,7 +5,7 @@ function Bienvenida() {
       <>
         <div>
           <h5 className="text-lg mt-0">
-            Bienvenido al sistema Web para la gestión de fondos a rendir
+            Bienvenido al sistema Web  de compras
           </h5>
         </div>
       </>
