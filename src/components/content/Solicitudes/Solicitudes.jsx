@@ -28,55 +28,51 @@ function Solicitudes({
                 emptyMessage="No se encontraron Solicitudes"
 
             >
-                <Column
+                {/* <Column
                     header="#"
                     headerStyle={{ width: "3rem" }}
                 //   body={( options) => options.rowIndex + 1}
-                ></Column>
+                ></Column> */}
                 <Column
-                    field="ID"
-                    header="Código"
+                    // field="ID"
+                    header="N° de req"
                     style={{ width: "7rem" }}
                     className="font-bold"
                 ></Column>
                 <Column
-                    field="STR_NRRENDICION"
-                    header="N° Rendición"
-                    style={{ minWidth: "12rem" }}
+                    // field="STR_NRRENDICION"
+                    header="Fecha"
+                    style={{ minWidth: "7rem" }}
                 ></Column>
                 <Column
-                    field="STR_ESTADO_INFO"
-                    header="Estado"
-                    style={{ minWidth: "8rem" }}
+                    // field="STR_ESTADO_INFO"
+                    header="Area"
+                    style={{ minWidth: "7rem" }}
                     // body={statusBodyTemplate}
                 ></Column>
                 <Column
-                    field="STR_EMPLDASIG"
-                    header="Emp. Asignado"
-                    style={{ minWidth: "5rem" }}
+                   
+                    header="Proveedor"
+                    style={{ minWidth: "8rem" }}
                 ></Column>
                 <Column
-                    field="STR_FECHAREGIS"
-                    header="Fecha de Solicitud"
-                    style={{ minWidth: "10rem" }}
+                    // field="STR_FECHAREGIS"
+                    header="Condicion de Pago "
+                    style={{ minWidth: "12rem" }}
                     // body={fecBodyTemplate}
                 ></Column>
                 <Column
-                    field="STR_TOTALSOLICITADO"
+                    // field="STR_TOTALSOLICITADO"
                     // body={priceBodyTemplate}
-                    header="Monto Solicitado"
-                    style={{ minWidth: "12rem" }}
-                ></Column>
-                <Column
-                    field="STR_DOCENTRY"
-                    header="DocEntry"
-                    style={{ minWidth: "10rem" }}
-                ></Column>
-                <Column
-                    field="STR_CARGADOCS"
-                    header="Carga Docs"
+                    header="Estado"
                     style={{ minWidth: "7rem" }}
                 ></Column>
+                <Column
+                    // field="STR_DOCENTRY"
+                    header="Sap DocNum"
+                    style={{ minWidth: "10rem" }}
+                ></Column>
+
                 <Column
                     header="Acciones"
                     // body={actionBodyTemplate}
@@ -85,13 +81,7 @@ function Solicitudes({
                 // frozen={true}
                 // alignFrozen="right"
                 ></Column>
-                <Column
-                    field="STR_MOTIVOMIGR"
-                    header="Mensaje de Migración"
-                    style={{ minWidth: "20rem" }}
-                // frozen={true}
-                // alignFrozen="right"
-                ></Column>
+
 
             </DataTable>
         </div>

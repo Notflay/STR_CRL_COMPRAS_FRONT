@@ -7,10 +7,12 @@ import { Dropdown } from 'primereact/dropdown';
 import { Button } from 'primereact/button';
 import { AppContext } from "../../../App";
 import { Navigate, useNavigate } from 'react-router-dom';
+import { iniciaSesion } from '../../../services/axios.service';
+
 
 
 export default function Formulario() {
-    const {ruta } = useContext(AppContext);
+    const { ruta, showError, showSuccess, setUsuario } = useContext(AppContext);
     const navigate = useNavigate();
     const toast = useRef(null)
     const buttonRef = useRef();
@@ -18,15 +20,28 @@ export default function Formulario() {
     const [pass, setPassword] = useState('');
 
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-        if (usuario === 'usuario' && pass === 'contraseña') {
+        let response= await iniciaSesion({username:usuario,password:pass})
+        
+        console.log(response)
+        // if (usuario === 'usuario' && pass === 'contraseña') {
+        //     toast.current.show({ severity: 'success', detail: 'Inicio de sesión exitoso' });
+        //      navigate(ruta +'/Inicio'); // Cambia esto para usar la función navigate
+        //     console.log('inicio el proceso')
+        // } else {
+        //     toast.current.show({ severity: 'error', detail: 'Nombre de usuario o contraseña incorrectos' });
+        // }
+        if (response.status === 200 && response.data.CodRespuesta === "00") {
+            setUsuario(response.data.Result[0]);
+            navigate(ruta +'/Inicio');
+            
             toast.current.show({ severity: 'success', detail: 'Inicio de sesión exitoso' });
-             navigate(ruta +'/Inicio'); // Cambia esto para usar la función navigate
-            console.log('inicio el proceso')
         } else {
+            console.log(response.data);
             toast.current.show({ severity: 'error', detail: 'Nombre de usuario o contraseña incorrectos' });
-        }
+    } 
+
     };
 
     return (

@@ -7,6 +7,7 @@ export default function Header({
     setSideBarActive,
     SideBarActive,
     responsiveSize,
+    usuario
     // responsiveSizeMobile,
 }) {
     const navigate = useNavigate();
@@ -17,10 +18,39 @@ export default function Header({
 
     const handleSpanClick = () => {
         if (buttonRef.current) {
-          buttonRef.current.click();
+            buttonRef.current.click();
         }
-        window.close(); 
-      }
+        window.close();
+    }
+
+    console.log(obtenePerfil(usuario.rol?.id))
+    function obtenePerfil(perfil) {
+        console.log(perfil)
+        switch (perfil) {
+            case 1:
+                return "Usuario";
+            case 2:
+                return "Autorizador";
+            case 3:
+                return "Administrador";
+            case 4:
+                return "otro";
+
+        }
+    }
+
+    const capitalizarNombres = (nombres) => {
+        const palabras = nombres.split("");
+
+        const nombresCapitalizados = palabras
+            .map((palabra) => {
+                return palabra.charAt(0).toUpperCase() + palabra.slice(1).toLowerCase();
+
+            })
+            .join("");
+
+        return nombresCapitalizados
+    }
 
 
     return (
@@ -90,13 +120,12 @@ export default function Header({
                                 className="align-items-center justify-content-center"
                                 style={{ color: "#97E723" }}
                             ></Button>
-                            {/* <span className="text-xs perfil " style={{ color: "#ffffff" }}>
-                                {usuario.Nombres && capitalizarNombres(usuario.Nombres)}
+                            <span className="text-xs perfil " style={{ color: "#ffffff" }}>
+                            {(usuario.nombres + usuario.apellidos)},
+                            Perfil:{ (usuario.rol?.name) },
+                            Sede:{(usuario.filial?.U_ST_NombreFilial)}
                             </span>
-                            <span className="text-xs perfil" style={{ color: "#ffffff" }}>
-                                Perfil: {obtenePerfil(usuario.TipoUsuario)} - Sede:{" "}
-                                {usuario.fax}
-                            </span> */}
+
                         </div>
                     )}
 

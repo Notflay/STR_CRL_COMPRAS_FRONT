@@ -10,7 +10,7 @@ export default function Login() {
             <div
                 className="layoutImage h-screen w-full bg-no-repeat bg-left-top  flex"
                 style={{
-                    backgroundImage: 'url(/src/components/Public/Imgs/FondoLogin.jpg)',
+                    // backgroundImage: 'url(/src/components/Public/Imgs/FondoLogin.jpg)',
                     backgroundSize: "100% 100%",
                 }}
             >

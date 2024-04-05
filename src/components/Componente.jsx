@@ -3,13 +3,14 @@ import { useNavigate } from "react-router-dom";
 import Header from "./partials/Header";
 import Modulos from "./partials/Subpartials/Modulos";
 import Layout from "./partials/Subpartials/Layout";
-
+import { AppContext } from "../App";
 
 export function Componente({ children }) {
-  const [ setWindowWidth] = useState(window.innerWidth);
-  // const { usuario, showError, ruta } = useContext(AppContext);
+  const [ windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  const { usuario, showError, ruta } = useContext(AppContext);
   const [SideBarActive, setSideBarActive] = useState(true);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleResize = () => {
     setWindowWidth(window.innerWidth);
@@ -31,8 +32,13 @@ export function Componente({ children }) {
     };
   }, []);
 
-
-
+  useEffect(() => {
+    if ((usuario == null) | (usuario?.usuarioId == null)) {
+      navigate(ruta + "/login", { replace: true });
+    } else {
+      console.log(usuario);
+    }
+  }, []);
 
 
   return (
@@ -42,6 +48,7 @@ export function Componente({ children }) {
         SideBarActive={SideBarActive}
         responsiveSize={responsiveSize()}
         responsiveSizeMobile={responsiveSizeMobile()}
+        usuario={usuario}
       />
       <Modulos
         responsiveSize={responsiveSize()}

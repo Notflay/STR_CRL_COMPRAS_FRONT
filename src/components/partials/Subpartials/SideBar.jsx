@@ -97,8 +97,8 @@ function SideBar({ responsiveSize, setSideBarActive, SideBarActive }) {
                   }
                 }}
               >
-                <i className="pi pi-dollar"></i>
-                <span>Rendiciones</span>
+                {/* <i className="pi pi-dollar"></i>
+                <span>Rendiciones</span> */}
               </a>
             </li>
           </ul>

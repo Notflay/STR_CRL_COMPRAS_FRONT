@@ -5,6 +5,7 @@ import { Divider } from "primereact/divider";
 import { useNavigate } from 'react-router-dom';
 import HeaderSL from './HeaderSL';
 import Solicitudes from './Solicitudes';
+import FormRegistro from './Componentes/Subcomponentes/FormRegistro';
 
 
 function BodySL({ responsiveSizeMobile }) {
@@ -14,74 +15,14 @@ function BodySL({ responsiveSizeMobile }) {
     const { usuario, ruta } = useContext(AppContext);
 
     const navigate = useNavigate();
-    const esSolicitudes = location.pathname.includes("solicitudes");
-    const now = new Date();
-    const [filtrado, setFiltrado] = useState({
-        rangoFecha: [new Date(now.getFullYear(), 0, 1), new Date()],
-        nrRendicion: null,
-        estados:
-          /*usuario.TipoUsuario == 2 ? [estados[1]] :*/ usuario.TipoUsuario == 1
-            ? [
-                {
-                  Id: 1,
-                  Nombre: "Borrador",
-                  Descripcion: null,
-                  id: null,
-                  name: null,
-                },
-                {
-                  Id: 5,
-                  Nombre: "Rechazado SR",
-                  Descripcion: null,
-                  id: null,
-                  name: null,
-                },
-                {
-                  Id: 7,
-                  Nombre: "Error Mig SR",
-                  Descripcion: null,
-                  id: null,
-                  name: null,
-                },
-              ]
-            : usuario.TipoUsuario == 2
-            ? [
-                {
-                  Id: 2,
-                  Nombre: "Pendiente",
-                  Descripcion: null,
-                  id: null,
-                  name: null,
-                },
-                {
-                  Id: 3,
-                  Nombre: "En Autorización SR",
-                  Descripcion: null,
-                  id: null,
-                  name: null,
-                },
-              ]
-            : usuario.TipoUsuario == 4
-            ? [
-                {
-                  Id: 7,
-                  Nombre: "Error Mig SR",
-                  Descripcion: null,
-                  id: null,
-                  name: null,
-                },
-              ]
-            : null,
-        empleadoAsig: null,
-      });
+
     const header = (
         <>
             <div className="flex justify-content-between flex-wrap">
                 <div
                     className={`flex ${responsiveSizeMobile ? `text-xl` : `text-2xl`
-                        } align-items-center`}
-
-                >Lista de Solicitudes
+                        } align-items-center`}> 
+                       Lista de Solicitudes
                 </div>
                 <div div className="flex flex-row flex-wrap gap-2">
                     <Button
@@ -96,11 +37,11 @@ function BodySL({ responsiveSizeMobile }) {
                     <Button
                         icon="pi pi-eraser"
                         onClick={() => {
-                            // setFiltrado({
-                            //     rangoFecha: [new Date(now.getFullYear(), 0, 1), new Date()],
-                            //     nrRendicion: null,
-                            //     estados: null,
-                            // });
+                             setFiltrado({
+                                rangoFecha: [new Date(now.getFullYear(), 0, 1), new Date()],
+                                nrRendicion: null,
+                               estados: null,
+                        });
                         }}
                         severity="secondary"
                     />
@@ -111,7 +52,7 @@ function BodySL({ responsiveSizeMobile }) {
                         onClick={() => {
                             navigate(ruta + "/solicitudes/agregar");
                         }}
-                        disabled={usuario.TipoUsuario != 1}
+                        // disabled={usuario.TipoUsuario != 1}
                     />
                     <Button
                         label="Exportar"
@@ -126,12 +67,9 @@ function BodySL({ responsiveSizeMobile }) {
                 </div>
             </div>
             <Divider />
-            {/* <Filtrado
-                estados={estados}
-                setEstados={setEstados}
-                // filtrado={filtrado}
-                setFiltrado={setFiltrado}
-            /> */}
+            {/* <FormRegistro>
+
+            </FormRegistro> */}
         </>
     );
     return (
@@ -140,8 +78,8 @@ function BodySL({ responsiveSizeMobile }) {
                 <HeaderSL
                     estados={estados}
                     setEstados={setEstados}
-                    filtrado={filtrado}
-                    setFiltrado={setFiltrado}
+                    // filtrado={filtrado}
+                    // setFiltrado={setFiltrado}
                     header={header}
                 />
                 <Solicitudes
@@ -149,8 +87,8 @@ function BodySL({ responsiveSizeMobile }) {
                     header={header}
                     estados={estados}
                     setEstados={setEstados}
-                    filtrado={filtrado}
-                    setFiltrado={setFiltrado}
+                    // filtrado={filtrado}
+                    // setFiltrado={setFiltrado}
                     solicitudes={solicitudes}
                     setSolicitudes={setSolicitudes}
                 />

@@ -8,6 +8,7 @@ import Bienvenida from "./components/content/Inicio/Bienvenida";
 import { Componente } from "./components/Componente";
 import BodySL from "./components/content/Solicitudes/BodySL";
 import { BodyRD } from "./components/content/Rendiciones/BodyRD";
+import FormularioSA from "./components/content/Solicitudes/Componentes/FormularioSA";
 
 export const AppContext = createContext(null);
 
@@ -79,6 +80,15 @@ export default function MyApp() {
               element={
                 <Componente>
                   <BodySL />
+                </Componente>
+              }
+            />
+
+            <Route
+              path={ruta + "/solicitudes/agregar"}
+              element={
+                <Componente>
+                  <FormularioSA/>
                 </Componente>
               }
             />
