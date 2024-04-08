@@ -28,11 +28,19 @@ function FormRegistro({
     ];
 
 
-    const [mostrarFormulario, setMostrarFormulario] = useState(false);
+    const [visible, setVisible] = useState(false);
 
     const toggleFormulario = () => {
-        setMostrarFormulario(!mostrarFormulario);
+        setVisible(!visible); 
     };
+
+    const openNew = () => {
+        // setDetalle(emptyProduct);
+        // //obtenerCentroCostoLocal();
+        // setSubmitted(false);
+        setProductDialog(true);
+      };
+    const [productDialog, setProductDialog] = useState(false);
     // variables de proveedores
     const selectedOptionTemplate = (option, props) => {
         if (option) {
@@ -275,15 +283,16 @@ function FormRegistro({
 
             </div>
             <div className="grid mt-5">
-                <div className="mb-3 flex flex-column gap-2 justify-content-center">
-                    <Button
-                        icon="pi pi-plus"
-                        label="AGREGAR DETALLE"
-                        severity="success"
-                        onClick={toggleFormulario}
-                    />
-                    {mostrarFormulario && <FormDetalle />}
-                </div>
+            <div className="mb-3 flex flex-column gap-2 justify-content-center">
+            <Button
+                icon="pi pi-plus"
+                label="AGREGAR DETALLE"
+                severity="success"
+                onClick={toggleFormulario} 
+            />
+
+            {visible && <FormDetalle setVisible={setVisible} />}
+        </div>
                 <div className="col-12 md:col-8 lg:col-2">
 
                     <div className="mb-3 flex flex-column gap-2 justify-content-center">
@@ -295,7 +304,12 @@ function FormRegistro({
                     </div>
                 </div>
             </div>
-
+            <FormDetalle
+          // setDetalle={setDetalle}
+          // setDetalles={setDetalles}
+          setProductDialog={setProductDialog}
+          // setDeleteProductDialog={setDeleteProductDialog}
+        ></FormDetalle>
 
         </>
     )

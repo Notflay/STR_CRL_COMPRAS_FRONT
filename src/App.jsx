@@ -12,7 +12,18 @@ import FormularioSA from "./components/content/Solicitudes/Componentes/Formulari
 
 export const AppContext = createContext(null);
 
-export default function MyApp() {
+export default function MyApp(
+  // setSubmitted,
+  // setProductDialog,
+  // setDetalle
+) {
+
+  const refCup = useRef(null);
+  // const hideDialog = () => {
+  //   setSubmitted(false);
+  //   setProductDialog(false);
+  //   setDetalle(emptyProduct);
+  // };
   const [config, setConfig] = useState({});
   const [usuario, setUsuario] = useState({
     usuario: "",
@@ -21,9 +32,13 @@ export default function MyApp() {
   const toast = useRef(null);
   const ruta = "/shopping"; // Servidor"/react-project";
 
-  const showError = () => {
-
-
+  const showError = (detalle) => {
+    toast.current.show({
+      severity: "error",
+      summary: "Error",
+      detail: detalle,
+      life: 3000,
+    });
   };
 
   return (

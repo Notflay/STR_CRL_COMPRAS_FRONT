@@ -21,7 +21,10 @@ function FormularioSA() {
   const [proveedores, setProveedores] = useState([]);
   const [ubicaciones, setUbicacion] = useState([]);
   const [condiciones, setCondicion] = useState([]);
-
+  //parte de for Detalle
+  const [submitted, setSubmitted] = useState(false);
+  const [deleteProductDialog, setDeleteProductDialog] = useState(false);
+  //--------------------------------------------------------------------------
   const obtnerCondicio = async () => {
     const response = await obtenerCondicion();
     if (response.status === 200) {
@@ -103,12 +106,7 @@ function FormularioSA() {
 
         <Divider />
         <AnexoSP></AnexoSP>
-        <FormDetalle
-          // setDetalle={setDetalle}
-          // setDetalles={setDetalles}
-          // setProductDialog={setProductDialog}
-          // setDeleteProductDialog={setDeleteProductDialog}
-        ></FormDetalle>
+
 
 
 
