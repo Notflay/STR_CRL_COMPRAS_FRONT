@@ -4,18 +4,22 @@ import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext'
 import { InputTextarea } from 'primereact/inputtextarea';
 import { classNames } from 'primereact/utils';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import FormDetalle from './FormDetalle';
+import { obtenerProveedores, obtnerArticulos } from '../../../../../services/axios.service';
 
 
 function FormRegistro({
     ubicaciones,
-    proveedores,
+  
     condiciones,
     editable
 
 
 }) {
+
+    const [proveedores, setProveedores] = useState([]);
+    const [articulo, setArticulos] = useState([]);
     const [productDialog, setProductDialog] = useState(false);
     const [date, setDate] = useState(null);
 
@@ -38,7 +42,7 @@ function FormRegistro({
         // //obtenerCentroCostoLocal();
         // setSubmitted(false);
         setProductDialog(true);
-      };
+    };
 
     // variables de proveedores
     const selectedOptionTemplate = (option, props) => {
@@ -53,6 +57,38 @@ function FormRegistro({
         }
         return <span>{props.placeholder}</span>;
     }
+
+    // form detalle 
+    const obtnerDatosArticulos = async () => {
+        const response = await obtnerArticulos();
+
+
+        if (response.status === 200) {
+            console.log(response.data.Result)
+            setArticulos(response.data.Result);
+        }
+        else {
+            console.error('Error al obtener los datos del articulo')
+        }
+    }
+
+
+    const obtenerDatosProveedores = async () => {
+        try {
+            const response = await obtenerProveedores();
+
+            if (response.status === 200) {
+                console.log(response.data.Result)
+                setProveedores(response.data.Result);
+            } else {
+                console.error('Error al obtener proveedores:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error al obtener proveedores:', error.message);
+        }
+    };
+
+
 
 
 
@@ -114,6 +150,11 @@ function FormRegistro({
         );
     };
 
+    useEffect(() => {
+        obtnerDatosArticulos();
+        obtenerDatosProveedores();
+    }, [])
+
 
     return (
         <>
@@ -173,17 +214,12 @@ function FormRegistro({
                             className="w-full md:w-14rem"
                             valueTemplate={selectedOptionUbicacion}
                             itemTemplate={complementoOptionUbicacion}
-
-
-
-
-
                         />
 
 
                     </div>
                 </div>
-                <div className="col-12 md:col-6 lg:col-4">
+                <div className="col-12 md:col-6 lg:col-3">
                     <label htmlFor="texSolicitante" className="font-bold block mb-3">
                         Proveedor:
                     </label>
@@ -200,7 +236,7 @@ function FormRegistro({
                             filterMatchMode="contains" // Puedes ajustar el modo de filtrado según tus necesidades
                             valueTemplate={selectedOptionTemplate}
                             itemTemplate={complementoOptionTemplate}
-                            className="w-4rem md:w-20rem"
+                            className="w-4rem md:w-14rem"
                             disabled={editable}
                         // loading={proveedores.length < 1}
                         />
@@ -218,7 +254,7 @@ function FormRegistro({
                             options={condiciones}
                             optionLabel="PrcName"
                             placeholder="Seleccionar Condición"
-                            className="w-full md:w-14rem"
+                            className="w-full md:w-19rem"
                             valueTemplate={selectedOptionCondiciones}
                             itemTemplate={complementoOptionCondiciones} />
 
@@ -267,7 +303,7 @@ function FormRegistro({
                             editable placeholder="Select a Product" className="w-full md:w-14rem" />
                     </div>
                 </div>
-                <div className="col-12 md:col-6 lg:col-5">
+                <div className="col-12 md:col-6 lg:col-3">
                     <label htmlFor="texSolicitante" className="font-bold block mb-3">
                         Justificacion:
                     </label>
@@ -282,16 +318,16 @@ function FormRegistro({
 
             </div>
             <div className="grid mt-5">
-            <div className="mb-3 flex flex-column gap-2 justify-content-center">
-            <Button
-                icon="pi pi-plus"
-                label="AGREGAR DETALLE"
-                severity="success"
-                onClick={openNew} 
-            />
+                <div className="mb-3 flex flex-column gap-2 justify-content-center">
+                    <Button
+                        icon="pi pi-plus"
+                        label="AGREGAR DETALLE"
+                        severity="success"
+                        onClick={openNew}
+                    />
 
-            {visible && <FormDetalle setVisible={setVisible} />}
-        </div>
+                    {visible && <FormDetalle setVisible={setVisible} />}
+                </div>
                 <div className="col-12 md:col-8 lg:col-2">
 
                     <div className="mb-3 flex flex-column gap-2 justify-content-center">
@@ -304,13 +340,18 @@ function FormRegistro({
                 </div>
             </div>
             <FormDetalle
-          // setDetalle={setDetalle}
-          // setDetalles={setDetalles}
-          productDialog={productDialog}
+                articulo={articulo}
+                // setDetalle={setDetalle}
+                // setDetalles={setDetalles}
+                productDialog={productDialog}
+                proveedores={proveedores}
 
-          setProductDialog={setProductDialog}
-          // setDeleteProductDialog={setDeleteProductDialog}
-        ></FormDetalle>
+
+
+
+                setProductDialog={setProductDialog}
+            // setDeleteProductDialog={setDeleteProductDialog}
+            ></FormDetalle>
 
         </>
     )

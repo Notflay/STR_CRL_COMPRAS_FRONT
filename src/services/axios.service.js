@@ -31,5 +31,15 @@ export const obtenerCondicion= () => {
     },
   });
 
+  
+
 };
+
+export const obtnerArticulos=()=>{
+  return API.get("/item",{
+    validateStatus:function(status){
+      return status<500;
+    }
+  });
+}
 
