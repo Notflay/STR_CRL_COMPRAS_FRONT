@@ -14,7 +14,9 @@ function FormRegistro({
     condiciones,
     editable
 
+
 }) {
+    const [productDialog, setProductDialog] = useState(false);
     const [date, setDate] = useState(null);
 
     const [value, setValue] = useState('');
@@ -30,9 +32,6 @@ function FormRegistro({
 
     const [visible, setVisible] = useState(false);
 
-    const toggleFormulario = () => {
-        setVisible(!visible); 
-    };
 
     const openNew = () => {
         // setDetalle(emptyProduct);
@@ -40,7 +39,7 @@ function FormRegistro({
         // setSubmitted(false);
         setProductDialog(true);
       };
-    const [productDialog, setProductDialog] = useState(false);
+
     // variables de proveedores
     const selectedOptionTemplate = (option, props) => {
         if (option) {
@@ -288,7 +287,7 @@ function FormRegistro({
                 icon="pi pi-plus"
                 label="AGREGAR DETALLE"
                 severity="success"
-                onClick={toggleFormulario} 
+                onClick={openNew} 
             />
 
             {visible && <FormDetalle setVisible={setVisible} />}
@@ -307,6 +306,8 @@ function FormRegistro({
             <FormDetalle
           // setDetalle={setDetalle}
           // setDetalles={setDetalles}
+          productDialog={productDialog}
+
           setProductDialog={setProductDialog}
           // setDeleteProductDialog={setDeleteProductDialog}
         ></FormDetalle>
