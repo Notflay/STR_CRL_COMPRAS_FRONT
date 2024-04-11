@@ -10,13 +10,24 @@ function FormDetalle({
     setDetalle,
     detalles,
     proveedores,
+    lnegocios,
+    proyectoss,
     productDialog,
     setProductDialog,
     articulo,
-    editable
+    sucursalop,
+    editable,
+    areas,
+    centros
+
 
 }) {
     const [proveedor, handleChangeProveedor] = useState(null);
+    const [lnegocio, setSelectlnegocio] = useState(null);
+    const [proyecto, setSelectProyecto] = useState(null);
+    const [sucursal, setselectSucursal] = useState(null);
+    const [area, SetselectArea]= useState (null);
+    const [centro,seSelectCentro]=useState(null);
     const [value1, setValue1] = useState(null);
     const [selectedItem, setSelectedItem] = useState(null);
     // const items = useRef(Array.from({ length: 100000 }));
@@ -30,7 +41,103 @@ function FormDetalle({
         setProductDialog(false);
         //   setDetalle(emptyProduct);
     };
+    // centro
+    const selectedCentroTemplate = (option, props) => {
+        if (option) {
+            return (
+                <div className="flex align-item-center">
+                    <div className="">
+                        <div className="">{option.name}</div>
+                    </div>
+                </div>
+            )
+        }
+        return <span>{props.placeholder}</span>
+    }
 
+    const complementoCentroTemplate = (option) => {
+        return (
+            <div className="flex">
+                <div>
+                    {option.name}
+                </div>
+            </div>
+        );
+    }
+    //Area
+    const selectedAreaTemplate = (option, props) => {
+        if (option) {
+            return (
+                <div className="flex align-item-center">
+                    <div className="">
+                        <div className="">{option.name}</div>
+                    </div>
+                </div>
+            )
+        }
+        return <span>{props.placeholder}</span>
+    }
+
+    const complementoAreaTemplate = (option) => {
+        return (
+            <div className="flex">
+                <div>
+                    {option.name}
+                </div>
+            </div>
+        );
+    }
+
+    // proyecto 
+    const selectProyectOptionTemplate = (option, props) => {
+        if (option) {
+            return (
+                <div className="flex align-item-center">
+                    <div className="">
+                        <div className="">{option.name}</div>
+                    </div>
+                </div>
+            )
+        }
+        return <span>{props.placeholder}</span>
+    }
+
+    const complementoProyectOptionTemplate = (option) => {
+        return (
+            <div className="flex">
+                <div>
+                    {option.name}
+                </div>
+            </div>
+        );
+    }
+
+    // linea de negocio 
+    const selectLNegocioTemplate = (option, props) => {
+        if (option) {
+            return (
+                <div className="flex align-item-center">
+                    <div>
+                        <div className="">{option.name}</div>
+                    </div>
+                </div>
+            )
+        }
+        return <span>{props.placeholder}</span>
+    }
+
+
+
+
+    const complementoLNegocioTemplate = (option) => {
+        return (
+            <div className="flex">
+                <div>
+                    {option.name}
+                </div>
+            </div>
+        );
+    };
 
     // proveedor
 
@@ -86,6 +193,33 @@ function FormDetalle({
 
     }
 
+    //Sucursal
+    const selectedSucursalTemplate = (option, props) => {
+        if (option) {
+            return (
+                <div className="flex align-item-center">
+                    <div className="">
+                        <div className="">{option.name}</div>
+                    </div>
+                </div>
+            )
+        }  return <span>{props.placeholder}</span>
+    }
+
+    const complementoSucursalTemplate = (option) => {
+
+        return (
+            <div className="flex">
+                <div>
+                    {option.name}
+                </div>
+            </div>
+        );
+
+    }
+    //
+
+
     const onLazyLoad = (event) => {
         setLoading(true);
 
@@ -133,7 +267,7 @@ function FormDetalle({
                 breakpoints={{ "960px": "75vw", "641px": "90vw" }}
                 header="Agregar Concepto"
                 modal
-                className="p-fluid lg:max-w-30rem w-full max-w-30rem"
+                className="p-fluid x1:max-w-30rem w-full max-w-30rem"
                 onHide={hideDialog}
                 footer={productDialogFooter}
             >
@@ -171,10 +305,10 @@ function FormDetalle({
                 <div className="field">
                     <label className="font-bold p-col-12 p-md-2">Fecha necesaria:</label>
                     <div className="card flex">
-                    <Calendar id="buttondisplay" 
-                    // value={date}
-                    //  onChange={(e) => setDate(e.value)} 
-                     showIcon />
+                        <Calendar id="buttondisplay"
+                            // value={date}
+                            //  onChange={(e) => setDate(e.value)} 
+                            showIcon />
                     </div>
                 </div>
                 <div className="field">
@@ -188,29 +322,29 @@ function FormDetalle({
                             placeholder="Selecciona Proveedor"
                             filter
                             filterBy="CardName,CardCode"
-                            filterMatchMode="contains" // Puedes ajustar el modo de filtrado según tus necesidades
+                            filterMatchMode="contains" 
                             valueTemplate={selectedOptionTemplate}
                             itemTemplate={complementoOptionTemplate}
                             className="w-full md:w-20rem"
                             disabled={editable}
-                        //loading={proveedores.length < 1}
+                        loading={proveedores.length < 1}
                         />
                     </div>
                 </div>
                 <div className="field">
-                    <label htmlFor="" className="font-bold p-col-12 p-md-2">Proyecto:</label>
+                    <label className="font-bold p-col-12 p-md-2">Proyecto:</label>
                     <div className="card flex">
                         <Dropdown
-                            // value={proveedor}
-                            // onChange={handleChangeProveedor}
-                            // options={proveedores}
-                            // optionLabel="CardName"
+                            value={proyecto}
+                            onChange={(e) => setSelectProyecto(e.value)}
+                            options={proyectoss}
+                            optionLabel="name"
                             placeholder="Selecciona Proyecto"
                             filter
-                            filterBy="CardName,CardCode"
-                            // filterMatchMode="contains" // Puedes ajustar el modo de filtrado según tus necesidades
-                            // valueTemplate={selectedOptionTemplate}
-                            // itemTemplate={complementoOptionTemplate}
+                            filterBy="name"
+                            filterMatchMode="contains" 
+                            valueTemplate={selectProyectOptionTemplate}
+                            itemTemplate={complementoProyectOptionTemplate}
                             className="w-full md:w-20rem"
                             disabled={editable}
                         //loading={proveedores.length < 1}
@@ -221,16 +355,16 @@ function FormDetalle({
                     <label htmlFor="" className="font-bold p-col-12 p-md-2">Linea de Negocio:</label>
                     <div className="card flex">
                         <Dropdown
-                            // value={proveedor}
-                            // onChange={handleChangeProveedor}
-                            // options={proveedores}
-                            // optionLabel="CardName"
+                            value={lnegocio}
+                            onChange={(e) => setSelectlnegocio(e.value)}
+                            options={lnegocios}
+                            optionLabel="name"
                             placeholder="Seleccionar..."
                             filter
-                            filterBy="CardName,CardCode"
-                            // filterMatchMode="contains" // Puedes ajustar el modo de filtrado según tus necesidades
-                            // valueTemplate={selectedOptionTemplate}
-                            // itemTemplate={complementoOptionTemplate}
+                            filterBy="name"
+                            filterMatchMode="contains" 
+                            valueTemplate={selectLNegocioTemplate}
+                            itemTemplate={complementoLNegocioTemplate}
                             className="w-full md:w-20rem"
                             disabled={editable}
                         //loading={proveedores.length < 1}
@@ -242,16 +376,16 @@ function FormDetalle({
                     <label htmlFor="" className="font-bold p-col-12 p-md-2">Sucursal:</label>
                     <div className="card flex">
                         <Dropdown
-                            // value={proveedor}
-                            // onChange={handleChangeProveedor}
-                            // options={proveedores}
-                            // optionLabel="CardName"
+                            value={sucursal}
+                            onChange={(e)=>setselectSucursal(e.value)}
+                            options={sucursalop}
+                            optionLabel="name"
                             placeholder="Seleccionar..."
                             filter
-                            filterBy="CardName,CardCode"
-                            // filterMatchMode="contains" // Puedes ajustar el modo de filtrado según tus necesidades
-                            // valueTemplate={selectedOptionTemplate}
-                            // itemTemplate={complementoOptionTemplate}
+                            filterBy="name"
+                            filterMatchMode="contains" 
+                            valueTemplate={selectedSucursalTemplate}
+                            itemTemplate={complementoSucursalTemplate}
                             className="w-full md:w-20rem"
                             disabled={editable}
                         //loading={proveedores.length < 1}
@@ -262,16 +396,16 @@ function FormDetalle({
                     <label htmlFor="" className="font-bold p-col-12 p-md-2">Area:</label>
                     <div className="card flex">
                         <Dropdown
-                            // value={proveedor}
-                            // onChange={handleChangeProveedor}
-                            // options={proveedores}
-                            // optionLabel="CardName"
+                            value={area}
+                            onChange={(e)=> SetselectArea(e.value)}
+                            options={areas}
+                            optionLabel="name"
                             placeholder="Selecciona Area"
                             filter
-                            filterBy="CardName,CardCode"
-                            // filterMatchMode="contains" // Puedes ajustar el modo de filtrado según tus necesidades
-                            // valueTemplate={selectedOptionTemplate}
-                            // itemTemplate={complementoOptionTemplate}
+                            filterBy="id,name"
+                            filterMatchMode="contains" 
+                            valueTemplate={selectedAreaTemplate}
+                            itemTemplate={complementoAreaTemplate}
                             className="w-full md:w-20rem"
                             disabled={editable}
                         //loading={proveedores.length < 1}
@@ -284,16 +418,16 @@ function FormDetalle({
 
 
                         <Dropdown
-                            // value={proveedor}
-                            // onChange={handleChangeProveedor}
-                            // options={proveedores}
-                            // optionLabel="CardName"
+                            value={centro}
+                            onChange={(e)=>seSelectCentro(e.value)}
+                            options={centros}
+                            optionLabel="name"
                             placeholder="Selecciona Centro "
                             filter
-                            filterBy="CardName,CardCode"
-                            // filterMatchMode="contains" // Puedes ajustar el modo de filtrado según tus necesidades
-                            // valueTemplate={selectedOptionTemplate}
-                            // itemTemplate={complementoOptionTemplate}
+                            filterBy="name,id"
+                            filterMatchMode="contains" 
+                            valueTemplate={selectedCentroTemplate}
+                            itemTemplate={complementoCentroTemplate}
                             className="w-full md:w-20rem"
                             disabled={editable}
                         //loading={proveedores.length < 1}

@@ -11,20 +11,83 @@ import { TableComprs } from './Subcomponentes/TableComprs';
 import AnexoSP from './Subcomponentes/AnexoSP';
 import { obtenerCondicion, obtenerProveedores, obtenerUbicacion } from '../../../../services/axios.service';
 import FormDetalle from './Subcomponentes/FormDetalle';
+import { ProgressSpinner } from 'primereact/progressspinner';
+import { Button } from 'primereact/button';
 
+// se agrego Usuario
 
 function FormularioSA() {
-  const { ruta } = useContext(AppContext);
+  const { usuario, ruta } = useContext(AppContext);
   const toast = useRef(null);
   const navigate = useNavigate();
-
+  // DropDowns usestate
   const [proveedores, setProveedores] = useState([]);
   const [ubicaciones, setUbicacion] = useState([]);
-  const [condiciones, setCondicion] = useState([]);
-  //parte de for Detalle
-  const [submitted, setSubmitted] = useState(false);
-  const [deleteProductDialog, setDeleteProductDialog] = useState(false);
+  const [condiciones, setCondicion] = useState([
+  ]);
+  const [solicitudRD, SetSolicitudRD] = useState({
+    Fec: null,
+
+  })
+
+  // function obtieneJsonAregistrar(){
+  //    let body= {
+  //     CRL_Fecha: usuario
+  //    }
+  // }
+
+
+  // const [items, setItems] = useState([]);
   //--------------------------------------------------------------------------
+  const [loadingTemplate, setLoadingTemplate] = useState(false);
+  // const esModoRegistrar = location.pathname.includes("agregar");
+  //  nueva constante ///
+  //  async function  SetDropDowns(){
+  //   setLoadingTemplate(true);
+  //    try{
+  //     const responses = await Promise.all ([
+  //       obtenerCondicion(),
+  //       obtenerUbicacion(),
+  //       obtenerProveedores(),
+
+  //     ]);
+  //      responses.forEach((response, index)=>{
+  //       const{CodRespuesta,DescRespuesta,Result}= response.data;
+  //       if (CodRespuesta!== 99){
+  //         switch(index){
+  //           case 0 :
+  //             setItems(Result);
+  //             console.log(setItems)
+  //             break;
+  //           case 1:
+  //             setCondicion(Result);
+  //             console.log(setCondicion)
+  //             break;
+  //           case 2:
+  //             setUbicacion(Result);
+  //             console.log(setUbicacion)
+  //             break;
+  //           case 3:
+  //             setProveedores(Result);
+  //             console.log(setProveedores)
+  //             break;
+  //           default:
+  //             break;
+  //         }
+  //       } else{
+  //         console.log ( response, index);
+  //         showError(DescRespuesta);
+  //       }
+  //      });
+  //    }catch (error) {
+  //     console.log(error);
+  //     showError("Error en el servidor");
+  //   } finally {
+  //     if (esModoRegistrar) setLoadingTemplate(false);
+  //     //setLoadingTemplate(false);
+  //   }
+
+  //  }
   const obtnerCondicio = async () => {
     const response = await obtenerCondicion();
     if (response.status === 200) {
@@ -71,7 +134,28 @@ function FormularioSA() {
     obtenerDatosProveedores();
     obtenerDireccion();
     obtnerCondicio();
+
+    // SetDropDowns();
   }, []);
+
+  if (loadingTemplate) {
+    return (
+      <div className="card flex justify-content-center">
+        <Toast ref={toast} />
+        <ProgressSpinner />
+
+      </div>
+    )
+  }
+
+  const showError = (mensaje) => {
+    toast.current.show({
+      severity: "error",
+      summary: "Error",
+      detail: mensaje,
+      life: 3000,
+    });
+  };
 
   return (
     <>
@@ -94,6 +178,8 @@ function FormularioSA() {
           proveedores={proveedores}
           ubicaciones={ubicaciones}
           condiciones={condiciones}
+        // showError={showError}
+        // items={items}
 
 
         >
@@ -102,10 +188,28 @@ function FormularioSA() {
 
         <Divider />
 
-        <TableComprs></TableComprs>
+        <TableComprs>
+
+        </TableComprs>
 
         <Divider />
-        <AnexoSP></AnexoSP>
+        <AnexoSP>
+
+        </AnexoSP>
+
+
+
+        <div className="col-12 md:col-8 lg:col-2">
+
+          <div className="mb-3 flex flex-column gap-2 justify-content-center">
+            <Button
+              icon="pi pi-trash"
+              label="GUARDAR"
+
+              />
+          </div>
+        </div>
+
 
 
 

@@ -84,6 +84,7 @@ function Solicitudes({
 
 
             </DataTable>
+
         </div>
     )
 }

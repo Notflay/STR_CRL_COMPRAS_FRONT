@@ -6,12 +6,12 @@ import { InputTextarea } from 'primereact/inputtextarea';
 import { classNames } from 'primereact/utils';
 import React, { useEffect, useState } from 'react'
 import FormDetalle from './FormDetalle';
-import { obtenerProveedores, obtnerArticulos } from '../../../../../services/axios.service';
+import { obtenerArea, obtenerCentroCosto, obtenerLineaNegocio, obtenerProveedores, obtenerProyecto, obtenerSucursal, obtnerArticulos } from '../../../../../services/axios.service';
 
 
 function FormRegistro({
     ubicaciones,
-  
+
     condiciones,
     editable
 
@@ -19,9 +19,14 @@ function FormRegistro({
 }) {
 
     const [proveedores, setProveedores] = useState([]);
+    const [sucursalop, setSucursal] = useState([]);
+    const [areas, setArea] = useState([]);
+    const [proyectoss, setProyectos] = useState([]);
     const [articulo, setArticulos] = useState([]);
+    const [lnegocios, setlnegocio] = useState([]);
     const [productDialog, setProductDialog] = useState(false);
     const [date, setDate] = useState(null);
+    const[centros,setcentros]=useState(null);
 
     const [value, setValue] = useState('');
     const [ubicacion, setSelectUbicacion] = useState(null);
@@ -58,7 +63,48 @@ function FormRegistro({
         return <span>{props.placeholder}</span>;
     }
 
-    // form detalle 
+    // form detalle
+    // centros
+    const obtnerdatoscentro = async () => {
+        const response = await obtenerCentroCosto();
+
+        if (response.status === 200) {
+            console.log(response.data.Result)
+            setcentros(response.data.Result)
+        }
+    }
+    //Area
+    const obtnerdatosArea = async () => {
+        const response = await obtenerArea();
+
+        if (response.status === 200) {
+            console.log(response.data.Result)
+            setArea(response.data.Result)
+        }
+    }
+    //Proyectos
+    const obtnerdatosProyectos = async () => {
+        const response = await obtenerProyecto();
+
+        if (response.status === 200) {
+            console.log(response.data.Result)
+            setProyectos(response.data.Result)
+        }
+    }
+    // LNegocios
+    const obtnerDtaosLNegocios = async () => {
+        const response = await obtenerLineaNegocio();
+        if (response.status === 200) {
+            console.log(response.data.Result)
+            setlnegocio(response.data.Result)
+        }
+        else {
+            console.error(' Error al obtener los datos del articulo')
+        }
+
+    }
+    //-------------
+    //Articulos
     const obtnerDatosArticulos = async () => {
         const response = await obtnerArticulos();
 
@@ -88,9 +134,34 @@ function FormRegistro({
         }
     };
 
+    // sucursal 
+    const obtnerdatosSucursal = async () => {
+        try {
+            const response = await obtenerSucursal();
+            if (response.status === 200) {
+                console.log(response.data.Result)
+                setSucursal(response.data.Result)
+            }
+        }
+        catch (error) {
+            console.error('Error al obtener  Proveedores', error.message);
+        }
+    }
+
+    useEffect(() => {
+        obtnerDatosArticulos();
+        obtenerDatosProveedores();
+        obtnerdatosProyectos();
+        obtnerDtaosLNegocios();
+        obtnerdatosSucursal();
+        obtnerdatosArea();
+        obtnerdatoscentro();
+
+    }, [])
 
 
 
+    //------------------------------------------------------------------------------------
 
     const complementoOptionTemplate = (option) => {
         return (
@@ -150,10 +221,6 @@ function FormRegistro({
         );
     };
 
-    useEffect(() => {
-        obtnerDatosArticulos();
-        obtenerDatosProveedores();
-    }, [])
 
 
     return (
@@ -345,9 +412,11 @@ function FormRegistro({
                 // setDetalles={setDetalles}
                 productDialog={productDialog}
                 proveedores={proveedores}
-
-
-
+                proyectoss={proyectoss}
+                lnegocios={lnegocios}
+                sucursalop={sucursalop}
+                areas={areas}
+                centros={centros}
 
                 setProductDialog={setProductDialog}
             // setDeleteProductDialog={setDeleteProductDialog}

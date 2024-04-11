@@ -120,13 +120,20 @@ export default function Header({
                                 className="align-items-center justify-content-center"
                                 style={{ color: "#97E723" }}
                             ></Button>
-                            <span className="text-xs perfil " style={{ color: "#ffffff" }}>
-                            {(usuario.nombres + usuario.apellidos)},
-                            Perfil:{ (usuario.rol?.name) },
-                            Sede:{(usuario.filial?.U_ST_NombreFilial)}
-                            </span>
 
+                            <span className="text-xs perfil " style={{ color: "#ffffff" }}>
+                                {(usuario.nombres && capitalizarNombres(usuario.nombres))}
+                            </span>
+                            <span className="text-xs perfil  " style={{ color: "#ffffff" }}>
+                                Perfil:{(usuario.rol?.name)}
+                            </span>
+                            <span className="text-xs perfil " style={{ color: "#ffffff" }}>
+                                Sede:{(usuario.filial?.U_ST_NombreFilial)}
+                            </span>
                         </div>
+
+
+
                     )}
 
                     <div

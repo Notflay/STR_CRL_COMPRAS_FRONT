@@ -1,5 +1,6 @@
 import React from 'react'
 import SideBar from "./SideBar";
+import { Sidebar } from 'primereact/sidebar';
 function Modulos({
     SideBarActive,
     setSideBarActive,
