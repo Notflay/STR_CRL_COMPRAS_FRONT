@@ -122,7 +122,8 @@ export default function Header({
                             ></Button>
 
                             <span className="text-xs perfil " style={{ color: "#ffffff" }}>
-                                {(usuario.nombres && capitalizarNombres(usuario.nombres))}
+                                {usuario.nombres &&
+                                    capitalizarNombres(usuario.nombres + usuario.apellidos)}
                             </span>
                             <span className="text-xs perfil  " style={{ color: "#ffffff" }}>
                                 Perfil:{(usuario.rol?.name)}

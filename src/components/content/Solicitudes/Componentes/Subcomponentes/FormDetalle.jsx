@@ -7,18 +7,25 @@ import { InputTextarea } from 'primereact/inputtextarea';
 import React, { useRef, useState } from 'react'
 
 function FormDetalle({
-    setDetalle,
-    detalles,
+  detalles,
+  detalle,
+  setDetalle,
+  setDetalles,
     proveedores,
-    lnegocios,
+    // lnegocios,
     proyectoss,
     productDialog,
     setProductDialog,
-    articulo,
-    sucursalop,
+    // articulo,
+    // sucursalop,
     editable,
-    areas,
-    centros
+    // areas,
+    // centros
+    items,
+    dim1,
+    dim2,
+    dim4,
+    dim5,
 
 
 }) {
@@ -35,6 +42,7 @@ function FormDetalle({
     const loadLazyTimeout = useRef();
 
     const [selectArticulo, setSelectArticulo] = useState(null);
+    
     // const refCup = useRef(null);
     const hideDialog = () => {
         // setSubmitted(false);
@@ -217,7 +225,47 @@ function FormDetalle({
         );
 
     }
-    //
+    //------------------------------------------------------------------
+    // nuevo metodo----------------------------------------------------
+    const saveProduct = () => {
+        setSubmitted(true);
+    
+        let _detalles = [...detalles];
+        let _detalle = { ...detalle };
+        console.log(_detalle);
+        if (
+          detalle.STR_ITEM.ItemCode != null
+          //detalle.cantidad > 0
+        ) {
+          if (detalle.ID) {
+            const index = _detalles.findIndex((p) => p.ID === detalle.ID);
+    
+            if (index !== -1) {
+              _detalles[index] = _detalle;
+    
+              showSuccess("Concepto Actualizado");
+            }
+          } else {
+            _detalle.ID = createId();
+            _detalles.push({
+              ..._detalle,
+            });
+    
+            showSuccess("Concepto Agregado");
+          }
+    
+          let STR_TOTALDOC = _detalles.reduce(
+            (acumulador, detalle) => acumulador + (detalle.STR_SUBTOTAL || 0),
+            0
+          );
+    
+
+    
+          setDetalle(_detalles);
+          setProductDialog(false);
+          setDetalle(emptyProduct);
+        }
+      };
 
 
     const onLazyLoad = (event) => {
@@ -254,7 +302,7 @@ function FormDetalle({
             <Button
                 label="Guardar"
                 icon="pi pi-check"
-                // onClick={saveProduct}
+                onClick={saveProduct}
                 disabled={editable}
             //disabled={!estadosEditables.includes(estado)}
             />
@@ -267,7 +315,7 @@ function FormDetalle({
                 breakpoints={{ "960px": "75vw", "641px": "90vw" }}
                 header="Agregar Concepto"
                 modal
-                className="p-fluid x1:max-w-30rem w-full max-w-30rem"
+                className="p-fluid max-w-30rem w-full max-w-30rem bg-white m-auto"
                 onHide={hideDialog}
                 footer={productDialogFooter}
             >
@@ -279,8 +327,15 @@ function FormDetalle({
                     <div className="card flex">
                         <Dropdown
                             value={selectArticulo}
-                            onChange={(e) => setSelectArticulo(e.value)}
-                            options={articulo}
+                            // onChange={(e) => setSelectArticulo(e.value)}
+                            onChange={(e) => {
+                                setDetalle((prevDetalle) => ({
+                                  ...prevDetalle,
+                                  STR_ITEM: e.target.value,
+                                }));
+                                
+                              }}
+                            options={items}
                             placeholder="Articulo"
                             optionLabel='name'
                             valueTemplate={ArticuloOptionTemplate}
@@ -357,7 +412,7 @@ function FormDetalle({
                         <Dropdown
                             value={lnegocio}
                             onChange={(e) => setSelectlnegocio(e.value)}
-                            options={lnegocios}
+                            options={dim1}
                             optionLabel="name"
                             placeholder="Seleccionar..."
                             filter
@@ -378,7 +433,7 @@ function FormDetalle({
                         <Dropdown
                             value={sucursal}
                             onChange={(e)=>setselectSucursal(e.value)}
-                            options={sucursalop}
+                            options={dim2}
                             optionLabel="name"
                             placeholder="Seleccionar..."
                             filter
@@ -398,7 +453,7 @@ function FormDetalle({
                         <Dropdown
                             value={area}
                             onChange={(e)=> SetselectArea(e.value)}
-                            options={areas}
+                            options={dim4}
                             optionLabel="name"
                             placeholder="Selecciona Area"
                             filter
@@ -420,11 +475,11 @@ function FormDetalle({
                         <Dropdown
                             value={centro}
                             onChange={(e)=>seSelectCentro(e.value)}
-                            options={centros}
+                            options={dim5}
                             optionLabel="name"
                             placeholder="Selecciona Centro "
                             filter
-                            filterBy="name,id"
+                            filterBy="name"
                             filterMatchMode="contains" 
                             valueTemplate={selectedCentroTemplate}
                             itemTemplate={complementoCentroTemplate}

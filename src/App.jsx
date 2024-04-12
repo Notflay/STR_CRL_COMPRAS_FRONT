@@ -12,25 +12,24 @@ import FormularioSA from "./components/content/Solicitudes/Componentes/Formulari
 
 export const AppContext = createContext(null);
 
-export default function MyApp(
-  // setSubmitted,
-  // setProductDialog,
-  // setDetalle
-) {
+export default function MyApp() {
 
   const refCup = useRef(null);
-  // const hideDialog = () => {
-  //   setSubmitted(false);
-  //   setProductDialog(false);
-  //   setDetalle(emptyProduct);
-  // };
+
   const [config, setConfig] = useState({});
   const [usuario, setUsuario] = useState({
-    usuario: "",
-    pass: "",
+    usuarioId: null,
+    nombres: "",
+    apellidos: "",
+    email: "",
+    username: "",
+    password: "",
+    rol: null,
+    filial: null,
+
   });
   const toast = useRef(null);
-  const ruta = "/shopping"; // Servidor"/react-project";
+  const ruta = "/shopping"; 
 
   const showError = (detalle) => {
     toast.current.show({
@@ -45,6 +44,7 @@ export default function MyApp(
     <AppContext.Provider
       value={{
         usuario,
+      
         setUsuario,
         showError,
         config: config[0],

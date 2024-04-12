@@ -13,81 +13,61 @@ import { obtenerCondicion, obtenerProveedores, obtenerUbicacion } from '../../..
 import FormDetalle from './Subcomponentes/FormDetalle';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { Button } from 'primereact/button';
+import Solicitudes from '../Solicitudes';
 
 // se agrego Usuario
 
 function FormularioSA() {
-  const { usuario, ruta } = useContext(AppContext);
+  const { usuario, setUsuario, ruta } = useContext(AppContext);
   const toast = useRef(null);
+
   const navigate = useNavigate();
   // DropDowns usestate
   const [proveedores, setProveedores] = useState([]);
   const [ubicaciones, setUbicacion] = useState([]);
   const [condiciones, setCondicion] = useState([
   ]);
-  const [solicitudRD, SetSolicitudRD] = useState({
-    Fec: null,
 
-  })
+  const [solicitudes, setSolicitudes] = useState({
 
-  // function obtieneJsonAregistrar(){
-  //    let body= {
-  //     CRL_Fecha: usuario
-  //    }
-  // }
+    DocDate: new Date(),
+    requester: null,
+    requestingArea: null,
+    address: null,
+    supplier: null,
+    paymentCondition: null,
+    agreementNumber: null,
+    manager: null,
+    productType: null,
+
+    justification: null
+  });
+  function obtienedatsoaregistrar() {
+    let body = {
+      STRFECHA: formData.fecha.toLocaleDateString("es-PE", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      }),
+      STR_SOlicitante: formData.solicitante,
+      STR_AREASOLICITANTE: formData.areaSolicitante,
+      STR_DIRECCION: formData.direccion,
+      STR_PROVEEDOR: formData.proveedor,
+      STR_CONDICIONPAGO: formData.condicionPago,
+      STR_NUMEROACUERDO: formData.numeroAcuerdo,
+      STR_ENCARGADO: formData.encargado,
+      STR_TIPOPRODUCTO: formData.tipoProducto,
+      STR_JUSTIFICACION: formData.justificacion,
+    };
+    console.log(body); // Puedes mostrar el objeto JSON en la consola para verificar que esté correctamente formado
+    return body;
+  }
 
 
-  // const [items, setItems] = useState([]);
+
   //--------------------------------------------------------------------------
   const [loadingTemplate, setLoadingTemplate] = useState(false);
-  // const esModoRegistrar = location.pathname.includes("agregar");
-  //  nueva constante ///
-  //  async function  SetDropDowns(){
-  //   setLoadingTemplate(true);
-  //    try{
-  //     const responses = await Promise.all ([
-  //       obtenerCondicion(),
-  //       obtenerUbicacion(),
-  //       obtenerProveedores(),
 
-  //     ]);
-  //      responses.forEach((response, index)=>{
-  //       const{CodRespuesta,DescRespuesta,Result}= response.data;
-  //       if (CodRespuesta!== 99){
-  //         switch(index){
-  //           case 0 :
-  //             setItems(Result);
-  //             console.log(setItems)
-  //             break;
-  //           case 1:
-  //             setCondicion(Result);
-  //             console.log(setCondicion)
-  //             break;
-  //           case 2:
-  //             setUbicacion(Result);
-  //             console.log(setUbicacion)
-  //             break;
-  //           case 3:
-  //             setProveedores(Result);
-  //             console.log(setProveedores)
-  //             break;
-  //           default:
-  //             break;
-  //         }
-  //       } else{
-  //         console.log ( response, index);
-  //         showError(DescRespuesta);
-  //       }
-  //      });
-  //    }catch (error) {
-  //     console.log(error);
-  //     showError("Error en el servidor");
-  //   } finally {
-  //     if (esModoRegistrar) setLoadingTemplate(false);
-  //     //setLoadingTemplate(false);
-  //   }
-
-  //  }
   const obtnerCondicio = async () => {
     const response = await obtenerCondicion();
     if (response.status === 200) {
@@ -175,17 +155,16 @@ function FormularioSA() {
 
         <Divider />
         <FormRegistro
+
           proveedores={proveedores}
+          usuario={usuario}
+          setSolicitudes={setSolicitudes}
+          solicitudes={solicitudes}
           ubicaciones={ubicaciones}
           condiciones={condiciones}
         // showError={showError}
         // items={items}
-
-
-        >
-
-        </FormRegistro>
-
+        />
         <Divider />
 
         <TableComprs>
@@ -205,8 +184,12 @@ function FormularioSA() {
             <Button
               icon="pi pi-trash"
               label="GUARDAR"
+              onClick={() => {
+                const dataToSend = obtienedatsoaregistrar();
+                // Aquí puedes enviar `dataToSend` a través de una solicitud HTTP o realizar cualquier acción necesaria con los datos
+              }}
 
-              />
+            />
           </div>
         </div>
 
